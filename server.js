@@ -30,7 +30,7 @@ app.get('/', (req,res) => {
             access_type: 'offline',
             scope: SCOPES
         })
-        console.log(url)
+        // console.log(url)
         res.send({url: url})
     }else{
 

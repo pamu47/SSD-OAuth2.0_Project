@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import Axios from 'axios';
+import Axios from 'axios';
 
 class Auth extends Component {
   constructor(props) {
@@ -7,6 +7,7 @@ class Auth extends Component {
     this.state = {
       code: "",
       token: "",
+      status_msg: ""
     };
   }
 
@@ -15,8 +16,30 @@ class Auth extends Component {
     this.setState({
       code: code,
     });
-    console.log("Code is " + this.state.code);
-
+    console.log("Code " + this.state.code);
+    const dataToSend = {
+      code: code
+    }
+    Axios.post('http://localhost:5000/google/getToken', dataToSend).then(res => {
+      console.log(res.data)
+        if(res.data.status === 400){
+            this.setState({
+                status_msg: res.data.msg
+            })
+            console.log(this.state.status_msg)
+        }else if(res.data.status === 200){
+          this.setState({
+            status_msg: res.data.msg
+        })
+        console.log(this.state.status_msg)
+            this.props.history.push(`/functions`)
+        }else{
+            this.setState({
+                status_msg: "Something went wrong!!"
+            })
+            console.log(this.state.status_msg)
+        }
+    })
   }
 
   async getCode() {
@@ -24,12 +47,18 @@ class Auth extends Component {
     console.log(query);
     var vars = query.split("&");
     var pair = vars[0].split("=");
-    console.log(pair);
+    // console.log(pair);
     return pair[1];
   }
 
   render() {
-    return <div>This is a change...</div>;
+    return (
+    <div className="container">
+      This is a change...
+
+    Status: <p>{this.state.status_msg}</p>
+    </div>
+    );
   }
 }
 

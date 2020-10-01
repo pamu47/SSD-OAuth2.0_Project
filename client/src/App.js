@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Homepage from './components/Homepage'
 import Auth from './components/Auth'
+import Functions from './components/FunctionsPage'
 
 import './App.css';
 
@@ -27,6 +28,7 @@ function App() {
     </div>
     <Route path="/" exact component={Homepage}/>
     <Route path="/auth" component={Auth}/>
+    <Route path="/functions" component={Functions}/>
   </Router>
   );
 }
