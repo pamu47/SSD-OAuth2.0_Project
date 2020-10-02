@@ -8,6 +8,7 @@ class Homepage extends Component{
         this.state = {
             redirect_uri: ''
         }
+        this.revokeToken = this.revokeToken.bind(this)
     }
 
     componentDidMount(){
@@ -19,6 +20,12 @@ class Homepage extends Component{
         console.log(this.state.redirect_uri)
     }
 
+    revokeToken(){
+        Axios.get('http://localhost:5000/google/deleteToken').then(res => {
+            console.log("Done")
+        })
+    }
+
     render(){
         return(
             <div className="container">
@@ -27,6 +34,7 @@ class Homepage extends Component{
                 <a href={this.state.redirect_uri} className="btn btn-block btn-primary"><span className="fa fa-google"></span> Login</a>
 
                 <Link to='/auth'>Auth</Link>
+                <button className="btn btn-danger" onClick={this.revokeToken}>Logout</button>
                 
             </div>
         )
