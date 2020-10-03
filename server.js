@@ -6,6 +6,8 @@ const cors = require('cors')
 const oAuth2 = require('./credentials.json')
 const {google} = require('googleapis')
 const googleRoutes = require('./routes/google_services')
+const bodyParser = require('body-parser')
+const multer = require('multer')
 
 const CLIENT_ID = oAuth2.web.client_id
 const CLIENT_SECRET = oAuth2.web.client_secret
@@ -15,10 +17,10 @@ var isAuthenticated = false
 const SCOPES = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile"
 
 app.use(cors())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 // app.use(express.static((__dirname, "./client/build")))
-
+app.use(multer({dest:'./routes/images'}).single('file'))
 // app.get('*',(req, res) => {
 //     res.sendFile(path.join(__dirname, '/', './client/build', 'index.html' ));
 // });

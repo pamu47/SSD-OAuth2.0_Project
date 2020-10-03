@@ -2,16 +2,28 @@ const express = require("express");
 const oAuth2 = require('../credentials.json')
 const googleRoutes = express.Router();
 const {google} = require('googleapis');
-const { oauth2 } = require("googleapis/build/src/apis/oauth2");
-
+const multer = require('multer')
+const fs = require('fs');
 const CLIENT_ID = oAuth2.web.client_id
 const CLIENT_SECRET = oAuth2.web.client_secret
 const REDIRECT_URI = oAuth2.web.redirect_uris[1]
 const oAuthClient = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
 var isAuthenticated = false
 const SCOPES = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile"
-var x = 0
 
+var Storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+      callback(null, __dirname.replace('routes','')+ '/images');
+    },
+    filename: function (req, file, callback) {
+      callback(null, file.originalname);
+    },
+  });
+  
+  var upload = multer({
+    storage: Storage,
+  }).single("file"); //Field name and max count
+express().use(upload)
 googleRoutes.post("/getToken", (req, res) => {
     console.log(req.body.code)
   const code = req.body.code
@@ -48,8 +60,43 @@ googleRoutes.get("/getProfile", (req,res) => {
 
 })
 
+googleRoutes.post("/upload", (req,res) => {
+    upload(req,res,(err) => {
+        if(err instanceof multer.MulterError){
+            return res.send({status:500, msg:"Upload Failed. Something went wrong"})
+        }else if(err){
+            return res.send({status: 500, msg:"Upload Failed. Something went wrong" })
+        }
+        // return res.send({data: req.file})
+        const driveObj = google.drive({
+            auth:oAuthClient,
+            version:'v3'
+        })
+        const fileMetadata = {
+            name: req.file.filename
+        }
+
+        const media = {
+            mimeType: req.file.mimetype,
+            body: fs.createReadStream(req.file.path)
+        }
+        driveObj.files.create({
+            resource: fileMetadata,
+            media:media,
+            fields: "id"
+        },(error,file) => {
+            if(error){
+                res.send({status:500, msg:"Upload Failed. Something went wrong"})
+            }else{
+                fs.unlinkSync(req.file.path)
+                res.send({status:200, msg: "File Successfully uploaded"})
+            }
+        })
+
+    })
+})
+
 googleRoutes.get("/deleteToken", (req,res)=>{
-    // res.send("new value : "+x)
     oAuthClient.revokeCredentials((error,body)=>{
         if(error){
             console.log(error)
