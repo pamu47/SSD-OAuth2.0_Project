@@ -13,7 +13,7 @@ function App() {
     <div className="container" style={{ marginTop: '20px' }}>
     <ul class="nav navbar-dark bg-dark justify-content-center">
   <li class="nav-item">
-    <h3 style={{padding:10,color:'white',fontWeight:'bold',fontFamily:'Ubuntu'}}>SSD Assignment 02 - Drive Uploader With oAuth2.0</h3>
+    <h3 style={{padding:10,color:'white',fontWeight:'bold',fontFamily:'Monospace'}}>SSD Assignment 02 - Drive Uploader With oAuth2.0</h3>
   </li>
  
 </ul>
