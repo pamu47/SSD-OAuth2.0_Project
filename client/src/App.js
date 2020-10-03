@@ -11,20 +11,12 @@ function App() {
   return (
     <Router>
     <div className="container" style={{ marginTop: '20px' }}>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/abc">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/abc">Home <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="/abc">Features</a>
-            <a class="nav-item nav-link" href="/abc">Pricing</a>
-            <a class="nav-item nav-link disabled" href="/abc" tabindex="-1" aria-disabled="true">Disabled</a>
-          </div>
-        </div>
-      </nav>
+    <ul class="nav navbar-dark bg-dark justify-content-center">
+  <li class="nav-item">
+    <h3 style={{padding:10,color:'white',fontWeight:'bold',fontFamily:'Ubuntu'}}>SSD Assignment 02 - Drive Uploader With oAuth2.0</h3>
+  </li>
+ 
+</ul>
     </div>
     <Route path="/" exact component={Homepage}/>
     <Route path="/auth" component={Auth}/>
