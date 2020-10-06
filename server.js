@@ -19,8 +19,9 @@ const SCOPES = "https://www.googleapis.com/auth/drive.file https://www.googleapi
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(express.static((__dirname, "./client/build")))
 app.use(multer({dest:'./routes/images'}).single('file'))
+
+// app.use(express.static((__dirname, "./client/build")))
 // app.get('*',(req, res) => {
 //     res.sendFile(path.join(__dirname, '/', './client/build', 'index.html' ));
 // });
@@ -32,7 +33,7 @@ app.get('/', (req,res) => {
             access_type: 'offline',
             scope: SCOPES
         })
-        // console.log(url)
+        console.log(url)
         res.send({url: url})
     }else{
 
