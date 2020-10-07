@@ -3,7 +3,7 @@
 ## Accessing Google Drive API with oAuth 2.0 Authorization
 <br>
 
-This is a web application developed using Node.js for the backend and React for the frontend. The credential.json file is not uploaded due to the security reasons.
+This is a web application developed using Node.js for the backend and React for the frontend. 
 
 <br>
 
